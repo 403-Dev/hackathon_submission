@@ -91,15 +91,13 @@
                 var event = getRandomIntInclusive(0, 10);
                 if (event == 7 || event == 8) {
                     event_display.innerHTML = "Toxic Leak: Some mining byproducts have leaked into the local water supply, making it toxic to humans."
-                    var calc_loss = Math.ciel(workers / 20 + excavators / 10 + drills / 5)
+                    var calc_loss = Math.floor(workers / 20 + excavators / 5 + drills)
                     if (calc_loss > 40) {
                         calc_loss = 40;
                     }
                     
-                } else if (event == 9) {
-                    event_display.innerHTML = ""
-
-                } else if (event == 10) {
+                } else if (event == 9 || event == 10) {
+                    event_display.innerHTML = "Workers have begun to cough.";
                     
                 } else {
                     event_display.innerHTML = "Business as usual."
