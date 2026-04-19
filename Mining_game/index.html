@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+    
+    </head>
+
+    <body>
+        <label id="mining_progress_bar"></label>
+        <br>
+        <label id="pollution_counter"></label>
+        <br>
+        <label id="money_counter"></label>
+        <br>
+        <label id="worker_counter"></label>
+        <br>
+        <label id="excavator_counter"></label>
+        <br>
+        <label id="drill_counter"></label>
+        <br>
+        <button onclick="on_hire_worker()">Hire Worker (Cost: 1)</button>
+        <button onclick="on_hire_excavator()"> Buy Excavator (Cost: 50) </button>
+        <button onclick="on_hire_drill()"> Buy Drill (Cost: 1000) </button>
+        <br><br>
+        <label> Mining Speed: </label>
+        <button onclick="mining_mode_calm()"> Calm </button>
+        <button onclick="mining_mode_steady()"> Steady </button>
+        <button onclick="mining_mode_rushed()"> Rushed </button>
+        <br><br>
+        <div> Events: </div>
+        <div id="event_display"></div>
+
+        <script>
+            var money = 0;
+            var workers = 1;
+            var excavators = 0;
+            var drills = 0;
+
+            var accident_probability = 1;
+            var mining_speed_multiplier = 1;
+            var enviroment_level = 100;
+
+            var mining_progress_bar = document.getElementById("mining_progress_bar");
+            var money_counter = document.getElementById("money_counter");
+            var worker_counter = document.getElementById("worker_counter");
+            var excavator_counter = document.getElementById("excavator_counter");
+            var drill_counter = document.getElementById("drill_counter");
+            var pollution_counter = document.getElementById("pollution_counter");
+            var event_display = document.getElementById("event_display");
+
+            const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            function getRandomIntInclusive(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            async function graphics_loop() {
+                // game stuff goes here
+                money_counter.innerHTML = "Money: " + money;
+                worker_counter.innerHTML = "Workers: " + workers;
+                excavator_counter.innerHTML = "Excavators: " + excavators;
+                drill_counter.innerHTML = "Drills: " + drills;
+                pollution_counter.innerHTML = "Enviroment Quality: " + enviroment_level;
+                
+                await sleep(20);
+                graphics_loop();
+            }
+
+            async function game_loop() {
+                await sleep(1000);
+                mining_progress_bar.innerHTML = "Mining Progress: █░░░░";
+                await sleep(1000);
+                mining_progress_bar.innerHTML = "Mining Progress: ██░░░";
+                await sleep(1000);
+                mining_progress_bar.innerHTML = "Mining Progress: ███░░";
+                await sleep(1000);
+                mining_progress_bar.innerHTML = "Mining Progress: ████░";
+                await sleep(1000);
+                mining_progress_bar.innerHTML = "Mining Progress: █████";
+                // logic goes here
+                
+                var incident_number = getRandomIntInclusive(0, 10);
+                if (incident_number <= accident_probability) {
+                    // accident!!!!
+                    var losses = getRandomIntInclusive(0, Math.floor(workers / 4));
+                    var excavator_losses = getRandomIntInclusive(0, Math.floor(excavators / 6));
+                    workers -= losses;
+                    window.alert("An accident has occured! " + losses + " workers were killed!\n" + excavator_losses + " excavators were lost!");
+                }
+
+                var event = getRandomIntInclusive(0, 10);
+                if (event == 7 || event == 8) {
+                    event_display.innerHTML = "Toxic Leak: Some mining byproducts have leaked into the local water supply, making it toxic to humans."
+                    var calc_loss = Math.ciel(workers / 20 + excavators / 10 + drills / 5)
+                    if (calc_loss > 40) {
+                        calc_loss = 40;
+                    }
+                    
+                } else if (event == 9) {
+                    event_display.innerHTML = ""
+
+                } else if (event == 10) {
+                    
+                } else {
+                    event_display.innerHTML = "Business as usual."
+                }
+
+
+                var profit = workers * mining_speed_multiplier + excavators * 10 * mining_speed_multiplier + drills * 200 * mining_speed_multiplier;
+                
+                money += profit;
+                
+                game_loop();
+            }
+
+            function on_hire_worker() {
+                if (money >= 1) {
+                    money -= 1;
+                    workers += 1;
+                }
+            }
+
+            function on_hire_excavator() {
+                if (money >= 50) {
+                    money -= 50;
+                    excavators += 1;
+                }
+            }
+
+            function on_hire_drill() {
+                if (money >= 1000) {
+                    money -= 1000;
+                    drills += 1;
+                }
+            }
+
+            function mining_mode_calm() {
+                mining_speed_multiplier = 0.5;
+                accident_probability = 0;
+            }
+            function mining_mode_steady() {
+                mining_speed_multiplier = 1;
+                accident_probability = 1;
+            }
+            function mining_mode_rushed() {
+                mining_speed_multiplier = 2;
+                accident_probability = 3;
+            }
+
+            graphics_loop();
+            game_loop();
+        </script>
+    </body>
+</html>
