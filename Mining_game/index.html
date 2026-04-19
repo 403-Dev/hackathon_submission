@@ -33,6 +33,7 @@
         <div id="event_display"></div>
         <img src="toxic_waste.png" id="toxic_waste_image" class="hidden">
         <img src="cough.png" id="cough_image" class="hidden">
+        <label id="dead"></label>
 
         <script>
             var money = 0;
@@ -53,6 +54,9 @@
             var event_display = document.getElementById("event_display");
             var txc_waste_img = document.getElementById("toxic_waste_image");
             var cough_img = document.getElementById("cough_image");
+            var dead = document.getElementById("dead");
+
+            var dead_amt = 0;
 
             const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -67,7 +71,7 @@
                 excavator_counter.innerHTML = "Excavators: " + excavators;
                 drill_counter.innerHTML = "Drills: " + drills;
                 pollution_counter.innerHTML = "Enviroment Quality: " + enviroment_level;
-                
+                dead.innerHTML = dead_amt;
                 await sleep(20);
                 graphics_loop();
             }
@@ -91,6 +95,8 @@
                     var losses = getRandomIntInclusive(0, Math.floor(workers / 4));
                     var excavator_losses = getRandomIntInclusive(0, Math.floor(excavators / 6));
                     workers -= losses;
+                    dead_amt += losses;
+                    dead_amt += excavator_losses;
                     window.alert("An accident has occured! " + losses + " workers were killed!\n" + excavator_losses + " excavators were lost!");
                 }
 
