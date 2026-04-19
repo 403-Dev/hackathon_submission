@@ -2,7 +2,7 @@
 
 <html>
     <head>
-    
+        <link rel="stylesheet" href="styles.css">
     </head>
 
     <body>
@@ -29,6 +29,7 @@
         <br><br>
         <div> Events: </div>
         <div id="event_display"></div>
+        <img src="toxic_waste.png" id="toxic_waste_image" class="hidden">
 
         <script>
             var money = 0;
@@ -47,6 +48,7 @@
             var drill_counter = document.getElementById("drill_counter");
             var pollution_counter = document.getElementById("pollution_counter");
             var event_display = document.getElementById("event_display");
+            var txc_waste_img = document.getElementById("toxic_waste_image");
 
             const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -96,11 +98,13 @@
                         calc_loss = 40;
                     }
                     
+                    txc_waste_img.classList = "";
                 } else if (event == 9 || event == 10) {
                     event_display.innerHTML = "Workers have begun to cough.";
-                    
+                    txc_waste_img.classList.add("hidden")
                 } else {
                     event_display.innerHTML = "Business as usual."
+                    txc_waste_img.classList.add("hidden")
                 }
 
 
