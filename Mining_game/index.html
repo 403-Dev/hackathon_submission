@@ -27,6 +27,8 @@
         <button onclick="mining_mode_steady()"> Steady </button>
         <button onclick="mining_mode_rushed()"> Rushed </button>
         <br><br>
+        <button onclick="buy_the_good_stuff()">Buy Water/Air Purifiers (Cost:2000)</button>
+        <br><br>
         <div> Events: </div>
         <div id="event_display"></div>
         <img src="toxic_waste.png" id="toxic_waste_image" class="hidden">
@@ -97,6 +99,8 @@
                     if (calc_loss > 40) {
                         calc_loss = 40;
                     }
+
+                    enviroment_level -= calc_loss;
                     
                     txc_waste_img.classList = "";
                 } else if (event == 9 || event == 10) {
@@ -133,6 +137,13 @@
                 if (money >= 1000) {
                     money -= 1000;
                     drills += 1;
+                }
+            }
+
+            function buy_the_good_stuff() {
+                if (money >= 2000) {
+                    money -= 2000;
+                    enviroment_level += 4;
                 }
             }
 
