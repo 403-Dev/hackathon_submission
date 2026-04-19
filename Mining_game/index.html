@@ -32,6 +32,7 @@
         <div> Events: </div>
         <div id="event_display"></div>
         <img src="toxic_waste.png" id="toxic_waste_image" class="hidden">
+        <img src="cough.png" id="cough_image" class="hidden">
 
         <script>
             var money = 0;
@@ -51,6 +52,7 @@
             var pollution_counter = document.getElementById("pollution_counter");
             var event_display = document.getElementById("event_display");
             var txc_waste_img = document.getElementById("toxic_waste_image");
+            var cough_img = document.getElementById("cough_image");
 
             const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -103,12 +105,15 @@
                     enviroment_level -= calc_loss;
                     
                     txc_waste_img.classList = "";
+                    cough_img.classList.add("hidden")
                 } else if (event == 9 || event == 10) {
                     event_display.innerHTML = "Workers have begun to cough.";
                     txc_waste_img.classList.add("hidden")
+                    cough_img.classList = "";
                 } else {
                     event_display.innerHTML = "Business as usual."
                     txc_waste_img.classList.add("hidden")
+                    cough_img.classList.add("hidden");
                 }
 
 
